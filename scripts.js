@@ -1,5 +1,5 @@
 //todo::
-//darken the completed row/cols
+//got bug on the save after select ans
 
 
 
@@ -380,6 +380,11 @@ function drawAns(boardbox, i , j){
         numAnsSelected++;
 
         //save the drawn ans
+
+        if(i==0 || j==0){
+            ansSelected[i][j] = 1;
+        }
+
         ansSelected[i][j] = 1;
         //checkAnsSelected(i,j);
         
@@ -456,13 +461,13 @@ function checkIfLineComplete(row,col){
     }
 
     if(colComplete){
-        const selector = `.boardBox[data-row='${row+1}'][data-col='${0}']`;
+        const selector = `.boardBox[data-row='${row}'][data-col='${-1}']`;
         const boardbox = document.querySelector(selector);
         boardbox.classList.add("emptyCorner");
     }
 
     if(rowComplete){
-        const selector = `.boardBox[data-row='${0}'][data-col='${col+1}']`;
+        const selector = `.boardBox[data-row='${-1}'][data-col='${col}']`;
         const boardbox = document.querySelector(selector);
         boardbox.classList.add("emptyCorner");
     }
@@ -487,8 +492,8 @@ async function loadBoard() {
 
             if(j==0 || i==0){
                boardbox.classList.add("answerSlot") 
-              boardbox.dataset.row = j; // store row index
-              boardbox.dataset.col = i;
+              boardbox.dataset.row = j-1; // store row index
+              boardbox.dataset.col = i-1;
 
                if(j==0){
                 boardbox.classList.add("topRow")

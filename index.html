@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NumSumApp</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="title"> 
+        <h1> Num Sum Game</h1>
+        <button id="saveBtn" class="actionButton">Save Game</button>
+        <button id="newBtn" class="actionButton">New Game</button>
+        <button id="resetBtn" class="actionButton">Reset Game</button>
+    </div>
+    
+    <!-- 3 lives -->
+    <div id="lives"></div>
+    
+    <!-- 6x6 board -->
+    <div id="board"> </div>
+    
+    <!-- eraser & pencil -->
+    <div id="toolbar">
+        <div class="toolbarContainer">
+            <button id="eraserBtn" class="toolButton active">
+                <i data-lucide="eraser" class="toolIcon"></i>
+            </button>
+            <button id="pencilBtn" class="toolButton">
+                <i data-lucide="pencil" class="toolIcon"></i>
+            </button>
+        </div>
+    </div>
+
+    <div id="results">
+    </div>
+      
+    
+    
+    
+    <script src="scripts.js"></script>
+
+
+</body>
+

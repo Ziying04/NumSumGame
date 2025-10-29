@@ -1,0 +1,330 @@
+/* ===== General ===== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #d7f4ff;
+  text-align: center;
+}
+
+.title {
+  color: rgb(138, 51, 126);
+  padding: 10px 0;
+  font-size: 1rem;
+}
+
+/* ===== Lives / Hearts ===== */
+#lives {
+  margin: 0 auto 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.heartIcon {
+  color: red;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  margin-bottom: -15px;
+}
+
+/* ===== Action Buttons ===== */
+.actionButton {
+  background-color: #94b6ff;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.actionButton:hover {
+  background-color: #7295e2;
+}
+
+/* ===== Board ===== */
+#board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.boardRow {
+  display: flex;
+  justify-content: center;
+}
+
+.boardBox {
+  color: rgb(0, 0, 0);
+  font-weight: 600;
+  font-size: 1.5rem;
+  background-color: white;
+  width: 70px;
+  height: 70px;
+  border: 1px solid rgb(119, 205, 255);
+  box-shadow: 0 4px 8px rgba(0, 255, 255, 0.4); /* remove drop shadow between tiles */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0; /* sharp edges for grid look */
+  margin: 0; /* remove all gaps */
+  padding: 0;
+}
+
+/* Optional: highlight separation without visible gaps */
+/* .boardRow:not(:last-child) .boardBox {
+  border-bottom: 1px solid rgb(119, 205, 255);
+}
+
+.boardBox:not(:last-child) {
+  border-right: 1px solid rgb(119, 205, 255);
+} */
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .boardBox {
+    width: 10vw;
+    height: 10vw;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .boardBox {
+    width: 12vw;
+    height: 12vw;
+    font-size: 1rem;
+  }
+}
+
+/* ===== Answer Slots ===== */
+.answerSlot {
+  background-color: rgb(160, 220, 255);
+  border-radius: 5px;
+  box-shadow: none;
+  border-color: transparent;
+  height: 60px;
+  width: 60px;
+  margin: 5px;
+}
+
+.emptyCorner {
+  color: transparent;
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  user-select: none;
+}
+
+.leftColumn {
+  margin-right: 5px;
+}
+
+/* ===== Toolbar ===== */
+.toolbarContainer {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.toolButton {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.toolButton:hover {
+  background-color: #dcdcdc;
+}
+
+.toolButton.active {
+  background-color: #94b6ff;
+  color: white;
+}
+
+.toolIcon {
+  color: black;
+  width: 36px;
+  height: 36px;
+}
+
+/* ===== Board Icons ===== */
+.boardBox {
+  position: relative;
+}
+
+.circleIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* centers it both ways */
+  width: 55px;
+  height: 55px;
+  color: black;
+  pointer-events: none; /* lets you click through to the cell */
+}
+
+/* ===== Results Popup ===== */
+#results {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.resultsContent {
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: 40px 60px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  z-index: 99999;
+  pointer-events: all;
+  animation: popIn 0.3s ease-out;
+}
+
+.resultsContent.win {
+  border: 4px solid #4CAF50;
+  color: #4CAF50;
+}
+
+.resultsContent.lose {
+  border: 4px solid #f44336;
+  color: #f44336;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+/* ===== Animations ===== */
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes flashGlow {
+  0% {
+    box-shadow: inset 0 0 0px red, 0 0 0px red;
+  }
+  50% {
+    box-shadow: inset 0 0 30px 10px red, 0 0 10px 10px red;
+  }
+  100% {
+    box-shadow: inset 0 0 0px red, 0 0 0px red;
+  }
+}
+
+.flash-red {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999999;
+  animation: flashGlow 0.6s ease-in-out;
+}
+
+/* ======== 📱 Responsive Design ======== */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .boardBox {
+    width: 12vw;
+    height: 12vw;
+    font-size: 1.1rem;
+  }
+
+  .answerSlot {
+    width: 10vw;
+    height: 10vw;
+    margin: 4px;
+  }
+
+  .heartIcon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .actionButton {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+
+  .toolbarContainer {
+    margin: 10px;
+    gap: 6px;
+  }
+
+  .toolIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .resultsContent {
+    padding: 25px 30px;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .boardBox {
+    width: 14vw;
+    height: 14vw;
+    font-size: 1rem;
+  }
+
+  .answerSlot {
+    width: 12vw;
+    height: 12vw;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .actionButton {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+}

@@ -1,5 +1,5 @@
 //todo::
-//got bug on the save after select ans
+
 
 
 
@@ -16,6 +16,8 @@ let ansColumn = new Array(rows).fill(0);
 let ansRow = new Array(columns).fill(0);
 let ansSelected = Array.from({ length: rows }, () => Array(columns).fill(0));
 let ansErased = Array.from({ length: rows }, () => Array(columns).fill(0));
+let colsCompleted = Array(rows).fill(0);
+let rowsCompleted = Array(columns).fill(0);
 
 let numAnsSelected = 0;
 let numAnsErased =0;
@@ -85,6 +87,8 @@ function setGameState(){
             ansPositions: ansPositions,
             ansColumn: ansColumn,
             ansRow: ansRow,
+            colsCompleted: Array(rows).fill(0),
+            rowsCompleted: Array(columns).fill(0),
         };
     }else{
         gameState = {
@@ -95,6 +99,8 @@ function setGameState(){
             ansPositions: ansPositions,
             ansColumn: ansColumn,
             ansRow: ansRow,
+            colsCompleted: colsCompleted,
+            rowsCompleted: rowsCompleted,
         };
     }
     console.log("gameState set!");
@@ -120,6 +126,8 @@ function loadGameState() {
     ansPositions = gameState.ansPositions;
     ansColumn = gameState.ansColumn;
     ansRow = gameState.ansRow;
+    colsCompleted = gameState.colsCompleted
+    rowsCompleted = gameState.rowsCompleted
 
 
     console.log("Game state loaded:", gameState);
@@ -423,8 +431,53 @@ function loadPreviousAns(){
                 }
             }
 
+            if(rowsCompleted[j]==1){
+               finishedLine(-1, j);
+            }
+            
+        }
+         if(colsCompleted[i] == 1){
+            finishedLine(i, -1);
+         }
+
+
+    }
+}
+
+function finishedLine(row, col){
+        const selector = `.boardBox[data-row='${row}'][data-col='${col}']`;
+        const boardbox = document.querySelector(selector);
+        boardbox.classList.add("emptyCorner");
+}
+
+
+function flashBoxCompleted(row,col, rowflag){
+    if(rowflag){
+        for(let i = 0; i<rows; i++){
+            const selector = `.boardBox[data-row='${i}'][data-col='${col}']`;
+            const boardbox = document.querySelector(selector);
+            boardbox.classList.add("boardFlash");
+
+              setTimeout(() => {
+                boardbox.classList.remove("boardFlash");
+            }, 1000); // 1000ms = 1 second
         }
     }
+
+
+    if(!rowflag){
+        for(let j = 0; j<columns; j++){
+            const selector = `.boardBox[data-row='${row}'][data-col='${j}']`;
+            const boardbox = document.querySelector(selector);
+            boardbox.classList.add("boardFlash");
+
+              setTimeout(() => {
+                boardbox.classList.remove("boardFlash");
+            }, 1000); // 1000ms = 1 second
+        }
+    }
+
+    
 }
 
 function checkIfLineComplete(row,col){
@@ -432,6 +485,7 @@ function checkIfLineComplete(row,col){
     let rowComplete = false;
     let i =0;
     let j =0;
+    let rowflag= false;
     
     //check col
     while(j<=columns){
@@ -461,15 +515,16 @@ function checkIfLineComplete(row,col){
     }
 
     if(colComplete){
-        const selector = `.boardBox[data-row='${row}'][data-col='${-1}']`;
-        const boardbox = document.querySelector(selector);
-        boardbox.classList.add("emptyCorner");
+        finishedLine(row, -1);
+        colsCompleted[row] = 1;
+        flashBoxCompleted(row,col, rowflag);
     }
-
+    
     if(rowComplete){
-        const selector = `.boardBox[data-row='${-1}'][data-col='${col}']`;
-        const boardbox = document.querySelector(selector);
-        boardbox.classList.add("emptyCorner");
+        finishedLine(-1, col);
+        rowsCompleted[col] = 1;
+        rowflag = true;
+        flashBoxCompleted(row,col, rowflag);
     }
 }
 
